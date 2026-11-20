@@ -5,15 +5,15 @@ description: Design, write, review, consolidate, or remove software tests and te
 
 # Practical Testing
 
-Protect observable behavior with the smallest sufficient body of evidence. Follow the repository's specifications, test requirements, and safety rules. A smaller suite is not a reason to discard required coverage.
+Protect observable behavior with the smallest sufficient body of evidence. Follow the repository's specifications, test requirements, and safety rules. Preserve tests for required behavior when reducing a suite.
 
-Treat test count, execution time, fixture complexity, and maintenance as costs. Add a test when it protects a meaningful behavior or risk not already adequately covered. Do not add a test for every function, branch, permutation, or implementation detail merely to increase volume or a coverage percentage. Coverage metrics can expose gaps; they do not establish test quality or replace required coverage.
+Treat test count, execution time, fixture complexity, and maintenance as costs. Add tests for specified behavior that needs better evidence. Use coverage reports only to find gaps in tests for specified behavior.
 
 ## Choose what to test
 
-- Identify the contract, requirement, or failure mode and the observable result the test protects. For a bug, reproduce the defect before the fix when practical.
+- Derive every test from behavior required by the program's spec files. Assert the observable result the spec guarantees. For a bug, reproduce the defect before the fix when practical.
 - Find existing coverage before adding a test. Extend an existing owner or consolidate equivalent assertions when that preserves the evidence. Give each behavior one primary owner in the cheapest sufficient lane; add another only for a distinct property or boundary. Do not remove independently meaningful checks simply because they share setup or touch the same endpoint.
-- Prefer public functions, registered handlers, and observable responses or state over private implementation details. Use strict fakes at dependency boundaries when useful. Avoid tests that merely restate code or exist only to raise coverage.
+- Test through a public function, registered handler, or other meaningful entry point that exercises several layers of real functions together. Use mocks, fixtures, or fakes to set up scenarios or control dependencies where useful.
 - Keep distinct, applicable checks for authorization, validation, privacy, failure behavior, and denied operations without side effects. Shared setup or table cases must not hide which behavior failed. Follow any required endpoint or domain regression matrix.
 
 ## Choose where it runs
@@ -25,6 +25,7 @@ Treat test count, execution time, fixture complexity, and maintenance as costs. 
 
 ## Review and report
 
+- Batch related changes before validation. Run the smallest relevant checks once and run independent checks in parallel when safe. After a routine fix, rerun only the failed checks. Follow any separate validation gates required by the governing workflow.
 - When removing or consolidating tests, identify the surviving owner for each protected behavior. Retain or replace assertions that have no equivalent owner. Review the final diff for lost boundaries, redundant evidence, unnecessary fixtures, and hidden cost.
 - For a large test audit, record each test's protected behavior, actual lane, and disposition: retain, consolidate, remove, or make on demand. Record the replacement owner or reason. For ordinary changes, use the diff and review rather than creating a permanent inventory.
 - Run focused checks appropriate to the change and report what ran, what it proves, and required evidence that remains unavailable. Do not imply that source tests, database tests, image builds, browser checks, or live acceptance prove the same thing.

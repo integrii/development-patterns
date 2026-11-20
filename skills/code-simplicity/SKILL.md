@@ -7,6 +7,10 @@ description: "Use when designing, implementing, refactoring, or reviewing code f
 
 Choose the simplest design that meets the requested behavior. Remove unnecessary code and process before adding abstractions. Preserve observable behavior unless the request or authoritative specification requires a change. Keep simplification within the task's scope.
 
+Question requirements that come from the existing implementation. If the design is hard to explain plainly, clarify the requirements or simplify the design before proceeding.
+
+Use idioms and standard APIs from the chosen language and ecosystem. When choosing a language or runtime, always prefer ahead-of-time compilation and avoid just-in-time compilation.
+
 ## Complexity and testing
 
 Apply these limits to the code being changed using the repository's appropriate analysis tools:
@@ -17,9 +21,8 @@ Apply these limits to the code being changed using the repository's appropriate 
 | Cognitive complexity | Below 22 |
 | Halstead Difficulty | Below 80 |
 | Maintainability Index | At least 20 on the normalized 0-100 scale. Higher is better. |
-| Test coverage | Strive for 100%. Verify intended behavior. |
 
-No CRAP score threshold is defined. Do not invent one or treat coverage alone as proof of maintainability.
+No CRAP score threshold is defined. Do not invent one.
 
 Report the analyzer, metric variant, and measurement scope when reporting scores. Apply function-level metrics to individual functions rather than hiding difficult functions behind aggregate averages. Do not compare raw Maintainability Index scores with the normalized threshold. If a metric cannot be measured with the available tooling, state that limitation instead of claiming compliance.
 
@@ -50,6 +53,8 @@ Use `development-patterns:practical-testing` when adding, changing, reviewing, o
 
 ## Apply and verify
 
-Identify the owning codepath and its consumers before changing a shared contract or boundary. Choose the smallest change that removes the complexity. Do not add atomicity, exactly-once behavior, crash recovery, or cross-store cleanup coordination unless the user explicitly requests that guarantee.
+Define the outcome, scope, and hard constraints before acting. Limit discovery to what establishes the owning codepath, its consumers, and affected dependencies. Choose the smallest change that removes the complexity. Do not add atomicity, exactly-once behavior, crash recovery, or cross-store cleanup coordination unless the user explicitly requests that guarantee.
 
-Run focused behavior checks and available complexity analysis for the changed code. Review the final diff for unnecessary interfaces, pass-through layers, exports, module splits, and duplicated decisions. Report what became simpler, the validation evidence, and any unmeasured limits.
+When delegating independent edits, give each agent exclusive ownership of its files or component.
+
+For routine changes, review the final diff once for unnecessary interfaces, indirection, exports, module splits, and duplicated decisions. Run focused behavior checks and available complexity analysis. Keep checks for secrets, destructive changes, data loss, and production releases when applicable. Defer low-risk polish and redundant validation. Report the change, evidence, risks, deferrals, and any unmeasured limits. Finish once the requested outcome and applicable checks are verified.
