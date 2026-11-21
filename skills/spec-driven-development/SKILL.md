@@ -44,10 +44,9 @@ It should describe, succinctly:
 
 Before changing `SPEC.md`:
 1. read the repo-local `AGENTS.md`
-2. read the repo-local `ADR.md` if present
-3. read the root `ARCHITECTURE.md` when cross-service boundaries matter
-4. read the current `SPEC.md`
-5. inspect the relevant code, handlers, DTOs, packages, and tests
+2. read the root `ARCHITECTURE.md` when cross-service boundaries matter
+3. read the current `SPEC.md`
+4. inspect the relevant code, handlers, DTOs, packages, and tests
 
 ## Core Rules
 
@@ -63,11 +62,6 @@ Before changing `SPEC.md`:
 - Fallback handling is banned for authoritative data: no alternate endpoint reads, competing field merges, stale cache replay, unrelated-payload inference, or hardcoded substitution.
 - If the authoritative fetch, decode, derive, or calculation path fails, fail explicitly according to the owning contract.
 - Caches are transport/performance layers only; they must not override or replace the authoritative origin.
-- Known persisted shapes must use typed relational tables and columns; avoid Postgres blobs for known structure.
-- Finite domains such as status, type, mode, state, reason, level, phase, event kind, provider, and action key should use concrete named enum types.
-- Avoid schema-less maps or blank interfaces for known payloads.
-- Upstream SDK models may be used when they are the authoritative third-party contract, even if they contain open-ended internals.
-- If a third-party contract is genuinely open-ended, document that exception in the owning `SPEC.md`.
 - Do not use "forward-only" as permission to drop desired functionality.
 - Before deleting or renaming code, prove it is retired compatibility, unreachable, or superseded by the desired-state spec.
 - For refactors and simplifications, identify touched behavioral surfaces such as routes, DTOs, storage rows, events, commands, manifests, and browser flows.
@@ -84,7 +78,6 @@ Before changing `SPEC.md`:
 - API or stream contract rules
 - package responsibilities
 - UI route/page contracts when the repo owns UI
-- typing and enum rules when important
 - testing and verification expectations when they materially shape implementation
 
 Not every repo needs every section, but every repo should have enough specification to make ownership, contracts, and intended behavior clear.
